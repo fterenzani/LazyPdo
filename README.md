@@ -4,7 +4,7 @@
     // Normal connection
     $notLazyPdo = new \LazyPdo\Pdo('sqlite:::memory:');
 
-    // Is the equivalent of
+    // It is the equivalent of
     // $pdo = new PDO('sqlite:::memory:');
     // $pdo->setAttribute(\PDO::ATTR_ERRMODE , \PDO::ERRMODE_EXCEPTION);
     // $pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_OBJ);
@@ -21,7 +21,7 @@
     // Shorthand method
     $results = $lazyPdo->execute($sql, array($vars, $to, $bind));
 
-    // Is the equivalent of:
+    // It is the equivalent of:
     // $stmt = $pdo->prepare($sql);
     // $stmt->execute(array($vars, $to, $bind));
     // $results = $stmt;
