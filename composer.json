@@ -1,0 +1,22 @@
+{
+    "name": "fterenzani/lazypdo",
+    "type": "library",
+    "description": "Just a bit of sugar in PDO",
+    "keywords": ["pdo", "db", "database", "data base"],
+    "homepage": "https://github.com/fterenzani/LazyPdo",
+    "license": "LGPL",
+    "authors": [
+        {
+            "name": "Francesco Terenzani",
+            "email": "f.terenzani@gmail.com",
+            "homepage": "http://www.terenzani.it",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "PSR-4": { "LazyPdo\\": "LazyPdo" }
+    }
+}
