@@ -17,6 +17,6 @@
         "php": ">=5.3"
     },
     "autoload": {
-        "PSR-4": { "LazyPdo\\": "LazyPdo" }
+        "psr-4": { "LazyPdo\\": "LazyPdo" }
     }
 }
