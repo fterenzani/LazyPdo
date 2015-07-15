@@ -10,6 +10,8 @@
 class Pdo extends \PDO implements LazyPdo
 {
 
+	use Execute;
+
 	function __construct($dsn, $username = '', $password = '', array $driver_options = array()) {
 		parent::__construct($dsn, $username, $password, $driver_options);
 		$this->setAttribute(\PDO::ATTR_ERRMODE , \PDO::ERRMODE_EXCEPTION);
@@ -19,16 +21,6 @@ class Pdo extends \PDO implements LazyPdo
 
 	function getPdo() {
 		return $this;
-	}
-
-	function execute($sql, $params = array()) {
-		$stmt = $this->prepare($sql);
-		if (!is_array($params)) {
-			$params = array($params);
-		}
-
-		$stmt->execute($params);
-		return $stmt;
 	}
 
 }

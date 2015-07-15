@@ -25,3 +25,17 @@
     // $stmt = $pdo->prepare($sql);
     // $stmt->execute(array($vars, $to, $bind));
     // $results = $stmt;
+
+*New in version 2*
+
+New shorthand methods:
+
+    $stmt = $lazyPdo->execute($sql, array($vars, $to, $bind));
+
+    $stmt->getAll('\My\CustomClass', array($constructor, $arguments));
+    // It is the equivalent of:
+    $stmt->fetchAll(\PDO::FETCH_CLASS, '\My\CustomClass', array($constructor, $arguments));
+
+    $stmt->get('\My\CustomClass', array($constructor, $arguments));
+    // It is the equivalent of:
+    $stmt->fetchObject('\My\CustomClass', array($constructor, $arguments));
