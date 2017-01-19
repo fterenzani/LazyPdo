@@ -2,7 +2,7 @@
     "name": "fterenzani/lazypdo",
     "type": "library",
     "description": "Just a bit of sugar in PDO",
-    "keywords": ["pdo", "db", "database", "data base"],
+    "keywords": ["pdo", "db", "database"],
     "homepage": "https://github.com/fterenzani/LazyPdo",
     "license": "LGPL",
     "authors": [
@@ -17,6 +17,7 @@
         "php": ">=5.4"
     },
     "autoload": {
-        "psr-4": { "LazyPdo\\": "LazyPdo" }
+        "psr-4": { "LazyPdo\\": "LazyPdo" },
+        "exclude-from-classmap": ["/tests/"]
     }
 }

@@ -12,7 +12,7 @@
     $lazyPdo instanceof \LazyPdo\LazyPdo; // true
     $notLazyPdo instanceof \LazyPdo\LazyPdo; // true
 
-    $lazyPdo instanceof \PDO; // false
+    $lazyPdo instanceof \PDO; // true
     $notLazyPdo instanceof \PDO; // true
 
     // Get the instance of \PDO
@@ -32,10 +32,10 @@ New shorthand methods:
 
     $stmt = $lazyPdo->execute($sql, array($vars, $to, $bind));
 
-    $stmt->getAll('\My\CustomClass', array($constructor, $arguments));
+    $stmt->fetchObjects('\My\CustomClass', array($constructor, $arguments));
     // It is the equivalent of:
     $stmt->fetchAll(\PDO::FETCH_CLASS, '\My\CustomClass', array($constructor, $arguments));
 
-    $stmt->get('\My\CustomClass', array($constructor, $arguments));
+    $stmt->fetchColumns(0);
     // It is the equivalent of:
-    $stmt->fetchObject('\My\CustomClass', array($constructor, $arguments));
+    $stmt->fetchAll(\PDO::FETCH_COLUMN);
