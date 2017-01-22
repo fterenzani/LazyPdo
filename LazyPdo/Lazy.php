@@ -73,18 +73,12 @@ class Lazy extends Pdo
 	function errorInfo() {
 		return $this->getPdo()->errorInfo();
 	}
-	/*function exec($statement) {
-		return $this->getPdo()->exec($statement);
-	}*/
 	function lastInsertId($name = null) {
 		return $this->getPdo()->lastInsertId($name);
 	}
 	function prepare($statement, $driver_options = array()) {
 		return $this->getPdo()->prepare($statement, $driver_options);
 	}
-/*	function query($statement) {
-		return $this->getPdo()->query($statement);
-	}*/
 	function quote($string, $parameter_type = \PDO::PARAM_STR) {				
 		return $this->getPdo()->quote($string, $parameter_type);
 	}

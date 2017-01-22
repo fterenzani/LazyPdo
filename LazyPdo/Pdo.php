@@ -30,15 +30,9 @@ class Pdo extends \PDO
 	}
 
 	function query($sql, $params = array()) {
-
 		$stmt = $this->getPdo()->prepare($sql);
-		if (!is_array($params)) {
-			$params = array($params);
-		}
-
 		$stmt->execute($params);
 		return $stmt;
-
 	}
 
 	function exec($sql, $params = array()) {
