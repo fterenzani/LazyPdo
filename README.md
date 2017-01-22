@@ -19,18 +19,22 @@
     $pdo = $lazyPdo->getPdo();
 
     // Shorthand method
-    $results = $lazyPdo->execute($sql, array($vars, $to, $bind));
+    $results = $lazyPdo->query($sql, array($vars, $to, $bind));
 
     // It is the equivalent of:
     // $stmt = $pdo->prepare($sql);
     // $stmt->execute(array($vars, $to, $bind));
     // $results = $stmt;
 
-*New in version 2*
+    // Shorthand method
+    $affectedRows = $lazyPdo->exec($sql, array($vars, $to, $bind));
 
-New shorthand methods:
+    // It is the equivalent of:
+    // $stmt = $pdo->prepare($sql);
+    // $stmt->execute(array($vars, $to, $bind));
+    // $affectedRows = $stmt->rowCount();
 
-    $stmt = $lazyPdo->execute($sql, array($vars, $to, $bind));
+    $stmt = $lazyPdo->query($sql, array($vars, $to, $bind));
 
     $stmt->fetchObjects('\My\CustomClass', array($constructor, $arguments));
     // It is the equivalent of:

@@ -26,16 +26,12 @@ class PdoTestCase extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(true, (new \LazyPdo\Lazy('sqlite::memory:'))->getPdo() instanceof PDO);
 	}
 
-	function testExecute()
-	{
-		$this->assertEquals(date('Y-m-d'), (new \LazyPdo\Pdo('sqlite::memory:'))->execute("SELECT DATE(?)", 'now')->fetchColumn());
-		$this->assertEquals(date('Y-m-d'), (new \LazyPdo\Lazy('sqlite::memory:'))->execute("SELECT DATE(?)", ['now'])->fetchColumn());
-	}
-
 	function testQuery()
 	{
-		$this->assertEquals(true, (new \LazyPdo\Pdo('sqlite::memory:'))->query("SELECT DATE('NOW')") instanceof PDOStatement);
-		$this->assertEquals(true, (new \LazyPdo\Lazy('sqlite::memory:'))->query("SELECT DATE('NOW')") instanceof PDOStatement);
+		$this->assertEquals(date('Y-m-d'), (new \LazyPdo\Pdo('sqlite::memory:'))->query("SELECT DATE('now')")->fetchColumn());
+		$this->assertEquals(date('Y-m-d'), (new \LazyPdo\Lazy('sqlite::memory:'))->query("SELECT DATE('now')")->fetchColumn());
+		$this->assertEquals(date('Y-m-d'), (new \LazyPdo\Pdo('sqlite::memory:'))->query("SELECT DATE(?)", 'now')->fetchColumn());
+		$this->assertEquals(date('Y-m-d'), (new \LazyPdo\Lazy('sqlite::memory:'))->query("SELECT DATE(?)", ['now'])->fetchColumn());
 	}
 
 	function testQuote()
@@ -48,8 +44,8 @@ class PdoTestCase extends \PHPUnit_Framework_TestCase
 
 	function testFetchColumns()
 	{
-		$this->assertEquals([date('Y-m-d')], (new \LazyPdo\Pdo('sqlite::memory:'))->execute("SELECT DATE(?)", ['now'])->fetchColumns(0));
-		$this->assertEquals([date('Y-m-d')], (new \LazyPdo\Lazy('sqlite::memory:'))->execute("SELECT DATE(?)", ['now'])->fetchColumns(0));
+		$this->assertEquals([date('Y-m-d')], (new \LazyPdo\Pdo('sqlite::memory:'))->query("SELECT DATE(?)", ['now'])->fetchColumns(0));
+		$this->assertEquals([date('Y-m-d')], (new \LazyPdo\Lazy('sqlite::memory:'))->query("SELECT DATE(?)", ['now'])->fetchColumns(0));
 	}
 
 	function testObjects()
@@ -58,8 +54,8 @@ class PdoTestCase extends \PHPUnit_Framework_TestCase
 		$test = new FooBar();
 		$test->t = date('Y-m-d');
 
-		$this->assertEquals([$test], (new \LazyPdo\Pdo('sqlite::memory:'))->execute("SELECT DATE(?) as t", ['now'])->fetchObjects('FooBar'));
-		$this->assertEquals([$test], (new \LazyPdo\Lazy('sqlite::memory:'))->execute("SELECT DATE(?) as t", ['now'])->fetchObjects('FooBar'));
+		$this->assertEquals([$test], (new \LazyPdo\Pdo('sqlite::memory:'))->query("SELECT DATE(?) as t", ['now'])->fetchObjects('FooBar'));
+		$this->assertEquals([$test], (new \LazyPdo\Lazy('sqlite::memory:'))->query("SELECT DATE(?) as t", ['now'])->fetchObjects('FooBar'));
 	}
 
 	function testProxy()
@@ -69,7 +65,7 @@ class PdoTestCase extends \PHPUnit_Framework_TestCase
 
 		$la->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 		$this->assertEquals(PDO::FETCH_ASSOC, $la->getAttribute(PDO::ATTR_DEFAULT_FETCH_MODE));
-		$this->assertEquals(['t' => date('Y-m-d')], $la->execute("SELECT date(?) as t", ['now'])->fetch());
+		$this->assertEquals(['t' => date('Y-m-d')], $la->query("SELECT date(?) as t", ['now'])->fetch());
 
 		$this->assertEquals(false, $la->inTransaction());
 		$la->beginTransaction();
@@ -85,9 +81,10 @@ class PdoTestCase extends \PHPUnit_Framework_TestCase
 		
 		$la->exec("create table articles (title)");
 		$stmt = $la->prepare("insert into articles (title) values (?)");
-		$stmt->execute(['test 1']);
+		$stmt->execute('test 1');
 		$stmt->execute(['test 2']);
 		$this->assertEquals(2, $la->lastInsertId());
+		$this->assertEquals(2, $la->exec("update articles set title = 'ok' where '1' = ?", 1));
 		$this->assertEquals(2, $la->exec("delete from articles"));
 
 		$this->assertEquals('0000', $la->errorCode());

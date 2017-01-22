@@ -29,7 +29,7 @@ class Pdo extends \PDO
 		return $this;
 	}
 
-	function execute($sql, $params = array()) {
+	function query($sql, $params = array()) {
 
 		$stmt = $this->getPdo()->prepare($sql);
 		if (!is_array($params)) {
@@ -41,8 +41,9 @@ class Pdo extends \PDO
 
 	}
 
-	function query($sql) {
-		return $this->execute($sql);
+	function exec($sql, $params = array()) {
+		$stmt = $this->query($sql, $params);
+		return $stmt->rowCount();
 	}
 
 	function quote($string, $parameter_type = \PDO::PARAM_STR) {
@@ -64,6 +65,15 @@ class Pdo extends \PDO
  */
 class Statement extends \PDOStatement
 {
+
+	function execute($parameters = null) {
+
+		if (!is_array($parameters)) {
+			$parameters = array($parameters);
+		}
+
+		return parent::execute($parameters);
+	}
 
 	function fetchObjects($className = 'stdClass', array $constructorArgs = array()) {
 		return $this->fetchAll(\PDO::FETCH_CLASS, $className, $constructorArgs);
